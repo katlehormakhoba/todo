@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 //-----------------
 var express = require('express');
-//var todoController = require('./controllers/todoController');
+let todoController = require('./controllers/todoController');
 
 var app = express();
 
@@ -11,9 +11,9 @@ var app = express();
 app.set('view engine', 'ejs');
 
 //STATIC FILES
+app.use(bodyParser.json());
 app.use(express.static('./public'));
-
-
+app.use('/todo', todoController);
 
 //FIRE CONTROLLERS
 //todoController
