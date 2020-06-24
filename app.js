@@ -13,7 +13,8 @@ app.set('view engine', 'ejs');
 //STATIC FILES
 app.use(bodyParser.json());
 app.use(express.static('./public'));
-app.use('/todo', todoController);
+app.use('/', todoController);
+
 
 //FIRE CONTROLLERS
 //todoController
@@ -38,37 +39,36 @@ var itemOne = Todo({item: 'buy flowers'}).save(function(err){
 
 
 //-----------------------------MySQL Connection
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "todo"
-});
-                  //---------------ROUTES----------------
+// var con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "todo"
+// });
+//                   //---------------ROUTES----------------
 
-con.connect(function(err){
-    if(err) throw err;
-    console.log('Connection Successfull');
-    //SELECT ALL AND DISPLAY DATA---------
-    con.query("SELECT * FROM list", function (err, result, fields) {
-        if (err) throw err;
+// con.connect(function(err){
+//     if(err) throw err;
+//     console.log('Connection Successfull');
+//     //SELECT ALL AND DISPLAY DATA---------
+//     con.query("SELECT * FROM list", function (err, result, fields) {
+//         if (err) throw err;
 
-        //DISPLAY DATA NOTE WE USE RENDER
+//         //DISPLAY DATA NOTE WE USE RENDER
         
-        app.get('/todo', function(req,res){
+//         app.get('/todo', function(req,res){
 
-            console.log(req.query.item);
-            res.render('todo', {todos: result});
+//             console.log(req.query.item);
+//             res.render('todo', {todos: result});
         
-        });
-        console.log(result);
-      });
-    //END-------------------
-   
+//         });
+//         console.log(result);
+//       });
+//     //END------------------- 
 
-});
+// });
 
 //------------------------------------------END OF MySQL Connection
 
@@ -76,27 +76,27 @@ con.connect(function(err){
 
 //DATABASE
 
-var data =[
-    {item: 'get milk'},
-    {item: 'walk dog'},
-    {item: 'eat food'}
-];
+// var data =[
+//     {item: 'get milk'},
+//     {item: 'walk dog'},
+//     {item: 'eat food'}
+// ];
 
 //ROUTES---------------------
 
 
-app.post('/todo', urlencodedParser, function(req,res){
-    console.log(req.body);
+// app.post('/todo', urlencodedParser, function(req,res){
+//     console.log(req.body);
 
-    res.render('todo', {}) ;  
-});
+//     res.render('todo', {}) ;  
+// });
 
-app.delete('/todo/:item', function(req,res){
-    data = data.filter(function(todo){
-        return todo.item.replace(/ /g, '-') !== req.params.item;
-    });
-    res.json(data);
-});
+// app.delete('/todo/:item', function(req,res){
+//     data = data.filter(function(todo){
+//         return todo.item.replace(/ /g, '-') !== req.params.item;
+//     });
+//     res.json(data);
+// });
 
 //----------------------------------
 

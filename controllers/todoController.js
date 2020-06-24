@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+//-----------midle ware
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
 const mysql = require('mysql');
 
 const con = mysql.createConnection({
@@ -13,7 +18,7 @@ const con = mysql.createConnection({
 
 //check connection status
 con.connect((err) => {
-    if(err){
+    if (err) {
         console.log('connection to MySql failed');
         return;
     }
@@ -21,25 +26,44 @@ con.connect((err) => {
     return;
 })
 
-
 //create user
-router.post('/add',(req, res) => {
-    
-   
-    let list = req.body.list;
-    
-    const sql  = 'INSERT INTO list SET ?';
-    let sql = "INSERT INTO TODO (list) VALUES ?";
+router.get('/list', (req, res) => {
 
-    con.query(sql, [list], (err, result) => {
-        if(err){
+    let sql = "SELECT * FROM list";
+
+    con.query(sql, (err, result) => {
+        if (err) {
             console.log('we have an error');
             throw err;
-        }else{
-            console.log(result);
-            res.send('list added');
+        } else {
+            let add = req.query.task;
+            if(add){
+                let sqlAdd = `INSERT INTO list (task) VALUES ('${add}')`;
+                con.query(sqlAdd, function(err,result){
+                    if(err) throw err;
+                    console.log("1 record inserted, ID: " + result.insertId);
+                    res.render('todo');
+
+                });
+               // console.log('we are in within');
+            }
+            //console.log(result);
+            res.render('todo', { todos: result });
         }
     });
+
+    
+
+    // let insert = `INSERT INTO list (task) VALUES ('get dog')`;
+    // con.query(insert, function(err, result){
+    //     if(err) throw err;
+    //     console.log("1 record inserted, ID: " + result.insertId);
+    // });
+
 });
+
+
+
+
 
 module.exports = router;
