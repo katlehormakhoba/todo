@@ -1,26 +1,34 @@
 <html>
-    <head>
-        <title></title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
 
-    </head>
-    <body>
-        <h1>My To-Do List</h1>
-        <div id="todo-table">
-            <form action="/todo" method="POST">
-                <input type="text" name="task" placeholder="Add new item..." required/>
-                <button type="submit">Add Item</button>
-            </form>
+<head>
+    <title>My To-Do Listn</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
 
-            <ul>
-                <% for(i =0 ; i<todos.length; i++){ %>
-                    <li><%= todos[i].task %></li>
+</head>
 
 
-                <% } %>
-            </ul>
+<body>
 
-        </div>
-    </body>
+
+
+
+    <h1>My To-Do List</h1>
+    <div id="todo-table">
+        <form action="/todo" method="POST">
+            <input type="text" name="task" placeholder="Add new item..." required />
+            <button type="submit">Add Item</button>
+        </form>
+
+        <ul>
+            <% for(i =0 ; i<todos.length; i++){ %>
+            <li><a href="/todo/<%= todos[i].task %>" class="btn"><%= todos[i].task %></a></li>
+             
+            
+            <% } %>
+        </ul>
+
+    </div>
+</body>
+
 </html>
