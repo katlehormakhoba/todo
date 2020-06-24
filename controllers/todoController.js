@@ -36,31 +36,30 @@ router.get('/list', (req, res) => {
             console.log('we have an error');
             throw err;
         } else {
-            let add = req.query.task;
-            if(add){
-                let sqlAdd = `INSERT INTO list (task) VALUES ('${add}')`;
-                con.query(sqlAdd, function(err,result){
-                    if(err) throw err;
-                    console.log("1 record inserted, ID: " + result.insertId);
-                    res.render('todo');
 
-                });
-               // console.log('we are in within');
-            }
             //console.log(result);
             res.render('todo', { todos: result });
         }
     });
 
-    
-
-    // let insert = `INSERT INTO list (task) VALUES ('get dog')`;
-    // con.query(insert, function(err, result){
-    //     if(err) throw err;
-    //     console.log("1 record inserted, ID: " + result.insertId);
-    // });
-
 });
+
+
+router.post('/add', urlencodedParser, function(req, res){
+
+    let add = req.body.task;
+    //console.log(req.body.task);
+
+        let sqlAdd = `INSERT INTO list (task) VALUES ('${add}')`;
+        con.query(sqlAdd, function(err,result){
+            if(err) throw err;
+            console.log("1 record inserted, ID: " + result.insertId);
+           // res.render('todo');  
+        });
+       // console.log('we are in within');
+       res.redirect('/list');
+
+})
 
 
 
