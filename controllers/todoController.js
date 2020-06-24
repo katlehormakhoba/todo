@@ -26,8 +26,8 @@ con.connect((err) => {
     return;
 })
 
-//create user
-router.get('/list', (req, res) => {
+//GETTING FROM MY DB
+router.get('/todo', (req, res) => {
 
     let sql = "SELECT * FROM list";
 
@@ -44,8 +44,8 @@ router.get('/list', (req, res) => {
 
 });
 
-
-router.post('/add', urlencodedParser, function(req, res){
+// ADDING TO MY DB
+router.post('/todo', urlencodedParser, function(req, res){
 
     let add = req.body.task;
     //console.log(req.body.task);
@@ -57,9 +57,27 @@ router.post('/add', urlencodedParser, function(req, res){
            // res.render('todo');  
         });
        // console.log('we are in within');
-       res.redirect('/list');
+       res.redirect('/todo');
 
-})
+});
+
+
+// DELETING TO MY DB
+router.get('/todo/:item', function(req,res){
+    
+    let del = req.params.item;
+    let sqlDel = `DELETE FROM list WHERE task = '${del}'`;
+    //console.log(del);
+    con.query(sqlDel, function(err,result){
+        if(err) throw err;
+        console.log("Number of records deleted: " + result.affectedRows);
+    });
+    res.redirect('/todo');
+});
+
+
+
+
 
 
 
